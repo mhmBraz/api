@@ -1,0 +1,7 @@
+{
+    "success": "Login feito com sucesso",
+    "failed": "E-mail ou senha incorreta.",
+    "error": "Erro",
+    "recover-user": "Se houver uma conta associada com o e-mail informado, você receberá um link para redefinir sua senha.",
+    "change-password": "Código incorreto ou expirado, por favor tente novamente."
+}
