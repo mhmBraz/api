@@ -11,10 +11,14 @@ import {UserRepository} from '../repositories';
 import {CreateUserResponseDto} from '../dtos/res';
 import * as bcrypt from 'bcrypt';
 import {I18nContext} from 'nestjs-i18n';
+import {RmqService} from './rmq.service';
 
 @Injectable()
 export class CreateUserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly rmqService: RmqService,
+  ) {}
 
   public async handler(
     payload: CreateUserRequestDto,
@@ -42,9 +46,11 @@ export class CreateUserService {
 
     try {
       const created = await this.userRepository.create(payload);
+      this.rmqService.sendEmail(created._id);
+
       return {
         data: new CreateUserResponseDto(created),
-        message: await i18n.t('user.error-create-user'),
+        message: await i18n.t('generic.success'),
         success: true,
       };
     } catch (err) {

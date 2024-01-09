@@ -7,6 +7,7 @@ import {LoginModule} from './modules/login/login.module';
 import {UsersModule} from './modules/users/users.module';
 import {PassportModule} from '@nestjs/passport';
 import {AuthModule} from './modules/auth/auth.module';
+
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),

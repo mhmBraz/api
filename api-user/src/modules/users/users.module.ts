@@ -12,11 +12,26 @@ import {AddCarToUserService} from './services/';
 import {GetUserService} from './services/';
 import {AuthModule} from 'src/modules/auth/auth.module';
 import {UpdateRememberService} from './services/';
+import {ClientsModule, Transport} from '@nestjs/microservices';
+import {RmqService} from './services/rmq.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{name: User.name, schema: UserSchema}]),
     forwardRef(() => AuthModule),
+    ClientsModule.register([
+      {
+        name: 'USERS_EMAILS_SERVICE',
+        transport: Transport.RMQ,
+        options: {
+          urls: [process.env.RMQ_URL],
+          queue: 'users_emails',
+          queueOptions: {
+            durable: true,
+          },
+        },
+      },
+    ]),
   ],
   controllers: [UsersController],
   providers: [
@@ -27,6 +42,7 @@ import {UpdateRememberService} from './services/';
     UpdateRememberService,
     saveRecoverCodeService,
     RecoverPasswordService,
+    RmqService,
   ],
   exports: [
     GetUserService,

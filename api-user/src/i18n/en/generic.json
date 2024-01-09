@@ -1,4 +1,5 @@
 {
-    "error" : "Erro, contate o administrador do sistema",
-    "permission": "You do not have permission to access..."
+  "success": "Sucess",
+  "error": "Erro, contate o administrador do sistema",
+  "permission": "You do not have permission to access..."
 }
