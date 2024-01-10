@@ -12,7 +12,7 @@ export class EmailsController {
   constructor() {}
 
   @MessagePattern('users_emails')
-  async recivingCat(@Payload() data, @Ctx() context: RmqContext) {
+  async createUser(@Payload() data, @Ctx() context: RmqContext) {
     try {
       console.log('data: ', data);
       console.log(`data: ${JSON.stringify(data)}`);

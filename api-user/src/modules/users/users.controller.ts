@@ -39,7 +39,7 @@ export class UsersController {
   @Post('/create')
   public async createUser(
     @Body() payload: CreateUserRequestDto,
-  ): Promise<{message: string; success: boolean; data: CreateUserResponseDto}> {
+  ): Promise<{message: string; success: boolean}> {
     return this.createUserService.handler(payload);
   }
 

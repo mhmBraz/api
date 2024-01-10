@@ -1,20 +1,20 @@
-import {BadGatewayException, Inject, Injectable} from '@nestjs/common';
-import {UserRepository} from '../repositories';
-import {ClientProxy} from '@nestjs/microservices';
+import {Inject, Injectable} from '@nestjs/common';
 
-// import {GetUserResponseDto} from '../dtos/res';
+import {ClientProxy} from '@nestjs/microservices';
+import {CreateUserRequestDto} from '../dtos/req';
 
 @Injectable()
 export class RmqService {
   constructor(
     @Inject('USERS_EMAILS_SERVICE') private clientEmail: ClientProxy,
   ) {}
-  public async sendEmail(userId: string) {
+  public async sendEmail(user: CreateUserRequestDto) {
     try {
       this.clientEmail.emit('users_emails', {
-        id: userId,
+        email: user.email,
         data: {
-          userId: userId,
+          email: user.email,
+          name: user.name,
         },
       });
     } catch (error) {

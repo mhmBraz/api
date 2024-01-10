@@ -1,6 +1,5 @@
 import {
   BadGatewayException,
-  ConflictException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -8,7 +7,6 @@ import {
 } from '@nestjs/common';
 import {CreateUserRequestDto} from '../dtos/req';
 import {UserRepository} from '../repositories';
-import {CreateUserResponseDto} from '../dtos/res';
 import * as bcrypt from 'bcrypt';
 import {I18nContext} from 'nestjs-i18n';
 import {RmqService} from './rmq.service';
@@ -22,7 +20,7 @@ export class CreateUserService {
 
   public async handler(
     payload: CreateUserRequestDto,
-  ): Promise<{message: string; success: boolean; data: CreateUserResponseDto}> {
+  ): Promise<{message: string; success: boolean}> {
     const i18n = I18nContext.current();
 
     const user = await this.userRepository.findExistentUser({
@@ -45,11 +43,10 @@ export class CreateUserService {
     }
 
     try {
-      const created = await this.userRepository.create(payload);
-      this.rmqService.sendEmail(created._id);
+      this.userRepository.create(payload);
+      this.rmqService.sendEmail(payload);
 
       return {
-        data: new CreateUserResponseDto(created),
         message: await i18n.t('generic.success'),
         success: true,
       };
