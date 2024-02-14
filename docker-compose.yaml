@@ -17,4 +17,13 @@ services:
     working_dir: /app
     command: >
       bash -c 'npm install -g @nestjs/cli@^9.0.0 && npm run start:dev'
+  user_database:
+    image: mongo:6.0.13-jammy
+    container_name: user_database
+    ports: ["27017:27017"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: users
+    command: mongod --quiet --logpath /dev/null
       

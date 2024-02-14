@@ -11,7 +11,9 @@ import {AuthModule} from './modules/auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true}),
-    MongooseModule.forRoot(process.env.APP_MONGODB_URI),
+    MongooseModule.forRoot(process.env.APP_MONGODB_URI, {
+      dbName: process.env.APP_MONGODB_DATABASE,
+    }),
     UsersModule,
     LoginModule,
     PassportModule,
