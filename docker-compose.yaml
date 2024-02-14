@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  api_user:
+    image: node:18.17.0-bullseye
+    container_name: api_user
+    ports: [ "3000:3000" ]
+    volumes: [ "./api-user:/app" ]
+    working_dir: /app
+    command: >
+      bash -c 'npm install -g @nestjs/cli@^9.0.0 && npm run start:dev'
+  api_emails:
+    image: node:18.17.0-bullseye
+    container_name: api_emails
+    ports: [ "3001:3001" ]
+    volumes: [ "./api-emails:/app" ]
+    working_dir: /app
+    command: >
+      bash -c 'npm install -g @nestjs/cli@^9.0.0 && npm run start:dev'
+      
